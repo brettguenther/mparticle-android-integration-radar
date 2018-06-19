@@ -5,13 +5,15 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.mparticle.MParticle;
+import com.mparticle.kits_core.KitIntegration;
+import com.mparticle.kits_core.ReportingMessage;
 import com.onradar.sdk.Radar;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class RadarKit extends KitIntegration implements KitIntegration.ActivityListener, KitIntegration.AttributeListener {
+public class RadarKit extends AbstractKitIntegration implements KitIntegration.ActivityListener, KitIntegration.AttributeListener {
 
     private static final String KEY_PUBLISHABLE_KEY = "publishableKey";
     private static final String KEY_RUN_AUTOMATICALLY = "runAutomatically";
@@ -35,7 +37,7 @@ public class RadarKit extends KitIntegration implements KitIntegration.ActivityL
     }
 
     @Override
-    protected List<ReportingMessage> onKitCreate(Map<String, String> settings, Context context) {
+    public List<ReportingMessage> onKitCreate(Map<String, String> settings, Context context) {
         String publishableKey = settings.get(KEY_PUBLISHABLE_KEY);
         mRunAutomatically = settings.containsKey(KEY_RUN_AUTOMATICALLY) && Boolean.parseBoolean(settings.get(KEY_RUN_AUTOMATICALLY));
 
@@ -53,7 +55,7 @@ public class RadarKit extends KitIntegration implements KitIntegration.ActivityL
         }
 
         List<ReportingMessage> messageList = new LinkedList<ReportingMessage>();
-        messageList.add(new ReportingMessage(this, ReportingMessage.MessageType.APP_STATE_TRANSITION, System.currentTimeMillis(), null));
+        messageList.add(new ReportingMessageImpl(this, ReportingMessageImpl.MessageType.APP_STATE_TRANSITION, System.currentTimeMillis(), null));
         return messageList;
     }
 
@@ -79,7 +81,7 @@ public class RadarKit extends KitIntegration implements KitIntegration.ActivityL
         }
 
         List<ReportingMessage> messageList = new LinkedList<ReportingMessage>();
-        messageList.add(new ReportingMessage(this, ReportingMessage.MessageType.APP_STATE_TRANSITION, System.currentTimeMillis(), null));
+        messageList.add(new ReportingMessageImpl(this, ReportingMessageImpl.MessageType.APP_STATE_TRANSITION, System.currentTimeMillis(), null));
         return messageList;
     }
 
@@ -154,7 +156,7 @@ public class RadarKit extends KitIntegration implements KitIntegration.ActivityL
         }
 
         List<ReportingMessage> messageList = new LinkedList<ReportingMessage>();
-        messageList.add(ReportingMessage.logoutMessage(this));
+        messageList.add(ReportingMessageImpl.logoutMessage(this));
         return messageList;
     }
 
@@ -164,7 +166,7 @@ public class RadarKit extends KitIntegration implements KitIntegration.ActivityL
             Radar.stopTracking();
         }
         List<ReportingMessage> messageList = new LinkedList<ReportingMessage>();
-        messageList.add(new ReportingMessage(this, ReportingMessage.MessageType.OPT_OUT, System.currentTimeMillis(), null));
+        messageList.add(new ReportingMessageImpl(this, ReportingMessageImpl.MessageType.OPT_OUT, System.currentTimeMillis(), null));
         return messageList;
     }
 
