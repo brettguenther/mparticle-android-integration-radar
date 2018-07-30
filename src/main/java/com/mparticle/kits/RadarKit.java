@@ -5,8 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.mparticle.MParticle;
-import com.mparticle.kits_core.KitIntegration;
-import com.mparticle.kits_core.ReportingMessage;
+import com.mparticle.kits.core.KitIntegration;
+import com.mparticle.kits.core.ReportingMessage;
 import com.onradar.sdk.Radar;
 
 import java.util.LinkedList;
